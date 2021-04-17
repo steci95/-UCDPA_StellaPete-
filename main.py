@@ -12,11 +12,8 @@ print(vg.info())
 print(vg.head())
 
 # Function to check number of row and columns.
-
-
 def rc_myfunc():
     print("The dataset has " + str(vg.shape[0]) + " rows." + " And has " + str(vg.shape[1]) + " columns.")
-
 
 print(rc_myfunc())
 
@@ -110,4 +107,4 @@ print(vg)
 # Looking at top 15 sellers
 vg_total = vg.sort_values('Total_Sales', ascending=False)
 vg_top_sellers = vg_total.iloc[0:15]
-print(vg_top_sellers)
+print(vg_top_sellers[['NA_Sales_Perc', 'EU_Sales_Perc', 'JP_Sales_Perc', 'Other_Sales_Perc']])
