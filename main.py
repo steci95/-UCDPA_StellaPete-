@@ -12,10 +12,14 @@ print(vg.info())
 print(vg.head())
 
 # Function to check number of row and columns.
+
+
 def rc_myfunc():
     print("The dataset has " + str(vg.shape[0]) + " rows." + " And has " + str(vg.shape[1]) + " columns.")
 
+
 print(rc_myfunc())
+
 
 # Check nulls & remove or fill with other
 print(vg.isna().any())
@@ -43,7 +47,7 @@ plt.close()
 
 # Year data
 vg_year = vg.dropna(subset=['Year_of_Release'])
-year_chart = sns.displot(vg_year['Year_of_Release'], bins = 30)
+year_chart = sns.displot(vg_year['Year_of_Release'], bins=30)
 year_chart.set(xlabel='Year of Release', ylabel='Number of Games')
 plt.show()
 plt.close()
@@ -103,8 +107,17 @@ for x in vg['Other_Sales']/vg['Total_Sales']:
 
 vg['Other_Sales_Perc'] = Other_Sales_Perc
 print(vg)
+print(rc_myfunc())
 
 # Looking at top 15 sellers
 vg_total = vg.sort_values('Total_Sales', ascending=False)
 vg_top_sellers = vg_total.iloc[0:15]
-print(vg_top_sellers[['NA_Sales_Perc', 'EU_Sales_Perc', 'JP_Sales_Perc', 'Other_Sales_Perc']])
+print(vg_top_sellers)
+
+# Using lopp and top seller data to determine where top sellers sale come from
+print(vg_top_sellers['NA_Sales_Perc'] == 'High')
+print(vg_top_sellers['EU_Sales_Perc'] == 'High')
+print(vg_top_sellers['JP_Sales_Perc'] == 'High')
+print(vg_top_sellers['JP_Sales_Perc'] == 'High')
+
+
