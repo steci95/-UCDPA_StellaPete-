@@ -42,19 +42,72 @@ Platform_chart.set_ylabel('Number of Games')
 Platform_chart.set_title('Number of Games by Platform')
 plt.xticks(rotation=90)
 plt.show()
+plt.close()
 
 # Year data
 vg_year = vg.dropna(subset=['Year_of_Release'])
 year_chart = sns.displot(vg_year['Year_of_Release'], bins = 30)
 year_chart.set(xlabel='Year of Release', ylabel='Number of Games')
 plt.show()
+plt.close()
 
 # Genre data
 vg['Total_Sales'] = vg['NA_Sales'] + vg['EU_Sales'] + vg['JP_Sales'] + vg['Other_Sales']
 vg_genre = vg.groupby('Genre')['Total_Sales'].sum()
-print(vg_genre)
+vg_genre.sort_values(ascending=True, inplace=True)
+vg_genre.plot.bar()
+plt.title('Total Sales by Genre')
+plt.xlabel('Game Genre')
+plt.ylabel('Total Sales')
+plt.show()
 
+# Loop function to determine parts of sales
+NA_Sales_Perc = []
+for x in vg['NA_Sales']/vg['Total_Sales']:
+    if x >= 0.75:
+        NA_Sales_Perc.append('High')
+    elif x <= 0.25:
+        NA_Sales_Perc.append('Low')
+    else:
+        NA_Sales_Perc.append('Medium')
 
+vg['NA_Sales_Perc'] = NA_Sales_Perc
 
+EU_Sales_Perc = []
+for x in vg['EU_Sales']/vg['Total_Sales']:
+    if x >= 0.75:
+        EU_Sales_Perc.append('High')
+    elif x <= 0.25:
+        EU_Sales_Perc.append('Low')
+    else:
+        EU_Sales_Perc.append('Medium')
 
+vg['EU_Sales_Perc'] = EU_Sales_Perc
 
+JP_Sales_Perc = []
+for x in vg['JP_Sales']/vg['Total_Sales']:
+    if x >= 0.75:
+        JP_Sales_Perc.append('High')
+    elif x <= 0.25:
+        JP_Sales_Perc.append('Low')
+    else:
+        JP_Sales_Perc.append('Medium')
+
+vg['JP_Sales_Perc'] = JP_Sales_Perc
+
+Other_Sales_Perc = []
+for x in vg['Other_Sales']/vg['Total_Sales']:
+    if x >= 0.75:
+        Other_Sales_Perc.append('High')
+    elif x <= 0.25:
+        Other_Sales_Perc.append('Low')
+    else:
+        Other_Sales_Perc.append('Medium')
+
+vg['Other_Sales_Perc'] = Other_Sales_Perc
+print(vg)
+
+# Looking at top 15 sellers
+vg_total = vg.sort_values('Total_Sales', ascending=False)
+vg_top_sellers = vg_total.iloc[0:15]
+print(vg_top_sellers)
