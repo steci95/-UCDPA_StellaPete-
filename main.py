@@ -3,6 +3,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from bokeh.io import output_file, show
+from bokeh.plotting import figure
+from bokeh.layouts import column, row
+
 
 # Import csv file
 vg = pd.read_csv('Video_Games.csv')
@@ -62,8 +66,8 @@ plt.xlabel('Game Genre')
 plt.ylabel('Total Sales')
 plt.show()
 
-# Genre sales over the years
-
+# Genre sales over the years using bokeh
+plot = figure(x_axis_label='Year', y_axis_label='Total_Sales')
 
 
 # Loop function to determine parts of sales
@@ -132,4 +136,3 @@ vg_data['Other_Sales_Perc'] = vg_data['Other_Sales_Perc'].replace(List1, List2)
 print(vg_data)
 sns.heatmap(vg_data)
 plt.show()
-
