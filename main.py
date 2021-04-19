@@ -62,6 +62,10 @@ plt.xlabel('Game Genre')
 plt.ylabel('Total Sales')
 plt.show()
 
+# Genre sales over the years
+
+
+
 # Loop function to determine parts of sales
 NA_Sales_Perc = []
 for x in vg['NA_Sales']/vg['Total_Sales']:
@@ -114,10 +118,6 @@ vg_total = vg.sort_values('Total_Sales', ascending=False)
 vg_top_sellers = vg_total.iloc[0:15]
 print(vg_top_sellers)
 
-# Using lopp and top seller data to determine where top sellers sale come from
-print(vg_top_sellers['NA_Sales_Perc'] == 'High')
-print(vg_top_sellers['EU_Sales_Perc'] == 'High')
-print(vg_top_sellers['JP_Sales_Perc'] == 'High')
-print(vg_top_sellers['JP_Sales_Perc'] == 'High')
-
-
+# Create the pandas DataFrame
+vg_data = pd.DataFrame(vg_top_sellers, columns= ['NA_Sales_Perc', 'EU_Sales_Perc', 'JP_Sales_Perc', 'Other_Sales_Perc'])
+print(vg_data)
