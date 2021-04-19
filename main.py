@@ -121,3 +121,15 @@ print(vg_top_sellers)
 # Create the pandas DataFrame
 vg_data = pd.DataFrame(vg_top_sellers, columns= ['NA_Sales_Perc', 'EU_Sales_Perc', 'JP_Sales_Perc', 'Other_Sales_Perc'])
 print(vg_data)
+
+# Custom heatmap creation
+List1 = ['High', 'Medium', 'Low']
+List2 = [1, 2, 3]
+vg_data['NA_Sales_Perc'] = vg_data['NA_Sales_Perc'].replace(List1, List2)
+vg_data['EU_Sales_Perc'] = vg_data['EU_Sales_Perc'].replace(List1, List2)
+vg_data['JP_Sales_Perc'] = vg_data['JP_Sales_Perc'].replace(List1, List2)
+vg_data['Other_Sales_Perc'] = vg_data['Other_Sales_Perc'].replace(List1, List2)
+print(vg_data)
+sns.heatmap(vg_data)
+plt.show()
+
