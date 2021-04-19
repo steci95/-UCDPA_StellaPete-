@@ -66,10 +66,6 @@ plt.xlabel('Game Genre')
 plt.ylabel('Total Sales')
 plt.show()
 
-# Genre sales over the years using bokeh
-plot = figure(x_axis_label='Year', y_axis_label='Total_Sales')
-
-
 # Loop function to determine parts of sales
 NA_Sales_Perc = []
 for x in vg['NA_Sales']/vg['Total_Sales']:
@@ -136,3 +132,11 @@ vg_data['Other_Sales_Perc'] = vg_data['Other_Sales_Perc'].replace(List1, List2)
 print(vg_data)
 sns.heatmap(vg_data)
 plt.show()
+
+# Comparing NA sales positioned against Total Sales of platforms - use bokeh to plot
+vg_platform = vg.groupby('Platform')['NA_Sales', 'Total_Sales'].sum()
+plot = figure(x_axis_label='Total Sales', y_axis_label='NA Sales')
+plot.circle(x='Total_Sales', y='NA_Sales', source=vg_platform)
+show(plot)
+
+
