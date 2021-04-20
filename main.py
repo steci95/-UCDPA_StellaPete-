@@ -6,6 +6,8 @@ import seaborn as sns
 from bokeh.io import output_file, show
 from bokeh.plotting import figure
 from bokeh.layouts import column, row
+from bokeh.models.widgets import Tabs
+from bokeh.models.widgets import Panel
 
 
 # Import csv file
@@ -133,10 +135,39 @@ print(vg_data)
 sns.heatmap(vg_data)
 plt.show()
 
-# Comparing NA sales positioned against Total Sales of platforms - use bokeh to plot
-vg_platform = vg.groupby('Platform')['NA_Sales', 'Total_Sales'].sum()
-plot = figure(x_axis_label='Total Sales', y_axis_label='NA Sales')
-plot.circle(x='Total_Sales', y='NA_Sales', source=vg_platform)
-show(plot)
+# Bokeh plots - using tab function & include hover tool
+#Step 1 create plot 1 - NA Sales
+na_platform = vg.groupby('Platform')['NA_Sales', 'Total_Sales'].sum()
+p1 = figure(x_axis_label='Total Sales', y_axis_label='North America Sales')
+p1.circle(x='Total_Sales', y='NA_Sales', source=na_platform)
+
+#Step 2 create plot 2 - EU Sales
+eu_platform = vg.groupby('Platform')['EU_Sales', 'Total_Sales'].sum()
+p2 = figure(x_axis_label='Total Sales', y_axis_label='European Sales')
+p2.circle(x='Total_Sales', y='EU_Sales', source=eu_platform)
+
+#Step 3 create plot 3 - JP Sales
+jp_platform = vg.groupby('Platform')['JP_Sales', 'Total_Sales'].sum()
+p3 = figure(x_axis_label='Total Sales', y_axis_label='Japan Sales')
+p3.circle(x='Total_Sales', y='JP_Sales', source=jp_platform)
+
+#Step 4 create plot 4 - Other Sales
+other_platform = vg.groupby('Platform')['Other_Sales', 'Total_Sales'].sum()
+p4 = figure(x_axis_label='Total Sales', y_axis_label='Other Sales')
+p4.circle(x='Total_Sales', y='Other_Sales', source=other_platform)
+
+# Create Tabs
+tab1 = Panel(child=p1, title='North America')
+tab2 = Panel(child=p2, title='Europe')
+tab3 = Panel(child=p3, title='Japan')
+tab4 = Panel(child=p4, title='Other')
+layout = Tabs(tabs=[tab1, tab2, tab3, tab4])
+show(layout)
+
+# add legend - color data based on platform
+# hovertool
+# include output file
+
+
 
 
