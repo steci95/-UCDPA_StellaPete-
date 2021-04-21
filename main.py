@@ -47,6 +47,8 @@ Platform_chart = sns.countplot(vg["Platform"])
 Platform_chart.set_ylabel('Number of Games')
 Platform_chart.set_title('Number of Games by Platform')
 plt.xticks(rotation=90)
+for p in Platform_chart.patches:
+    Platform_chart.annotate('{:}'.format(p.get_height()), (p.get_x(), p.get_height()+2), color='grey')
 plt.show()
 plt.clf()
 plt.close()
@@ -141,22 +143,22 @@ plt.show()
 
 # Bokeh plots - using tab function & include hover tool
 #Step 1 create plot 1 - NA Sales
-na_platform = vg.groupby('Platform')['NA_Sales', 'Total_Sales'].sum()
+na_platform = vg.groupby('Platform')[['NA_Sales', 'Total_Sales']].sum()
 p1 = figure(x_axis_label='Total Sales', y_axis_label='North America Sales')
 p1.circle(x='Total_Sales', y='NA_Sales', source=na_platform)
 
 #Step 2 create plot 2 - EU Sales
-eu_platform = vg.groupby('Platform')['EU_Sales', 'Total_Sales'].sum()
+eu_platform = vg.groupby('Platform')[['EU_Sales', 'Total_Sales']].sum()
 p2 = figure(x_axis_label='Total Sales', y_axis_label='European Sales')
 p2.circle(x='Total_Sales', y='EU_Sales', source=eu_platform)
 
 #Step 3 create plot 3 - JP Sales
-jp_platform = vg.groupby('Platform')['JP_Sales', 'Total_Sales'].sum()
+jp_platform = vg.groupby('Platform')[['JP_Sales', 'Total_Sales']].sum()
 p3 = figure(x_axis_label='Total Sales', y_axis_label='Japan Sales')
 p3.circle(x='Total_Sales', y='JP_Sales', source=jp_platform)
 
 #Step 4 create plot 4 - Other Sales
-other_platform = vg.groupby('Platform')['Other_Sales', 'Total_Sales'].sum()
+other_platform = vg.groupby('Platform')[['Other_Sales', 'Total_Sales']].sum()
 p4 = figure(x_axis_label='Total Sales', y_axis_label='Other Sales')
 p4.circle(x='Total_Sales', y='Other_Sales', source=other_platform)
 
@@ -168,11 +170,11 @@ tab4 = Panel(child=p4, title='Other')
 layout = Tabs(tabs=[tab1, tab2, tab3, tab4])
 hover = HoverTool(tooltips=[('Platform', '@Platform')])
 p1.add_tools(hover)
+p2.add_tools(hover)
+p3.add_tools(hover)
+p3.add_tools(hover)
 show(layout)
 
-# add legend - color data based on platform
-# hovertool
-# include output file
 
 
 
