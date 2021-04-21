@@ -8,6 +8,8 @@ from bokeh.plotting import figure
 from bokeh.models.widgets import Tabs
 from bokeh.models.widgets import Panel
 from bokeh.models import HoverTool
+import folium
+from IPython.display import display
 
 # Import csv file
 vg = pd.read_csv('Video_Games.csv')
@@ -175,7 +177,13 @@ p3.add_tools(hover)
 p3.add_tools(hover)
 show(layout)
 
+#Geospatial chart
+games_company = folium.Map([36, 139], zoom_start=15)
+locations = pd.read_csv('locations.csv')
+print(locations)
+locations.dropna(inplace=True)
 
+for i in range(0, len(locations)):
+    folium.Marker(location=[locations.iloc[i]['lat'], locations.iloc[i]['long']], popup=locations.iloc[i]['Company']).add_to(games_company)
 
-
-
+display(games_company)
