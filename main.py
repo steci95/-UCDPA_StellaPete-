@@ -5,15 +5,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from bokeh.io import output_file, show
 from bokeh.plotting import figure
-from bokeh.layouts import column, row
 from bokeh.models.widgets import Tabs
 from bokeh.models.widgets import Panel
-
+from bokeh.models import HoverTool
 
 # Import csv file
 vg = pd.read_csv('Video_Games.csv')
 
-# Look at dataset & summary - column names, null values, data types, min/max/mean stats
+# Look at dataset & summary
 print(vg.info())
 print(vg.head())
 
@@ -49,6 +48,7 @@ Platform_chart.set_ylabel('Number of Games')
 Platform_chart.set_title('Number of Games by Platform')
 plt.xticks(rotation=90)
 plt.show()
+plt.clf()
 plt.close()
 
 # Year data
@@ -56,10 +56,12 @@ vg_year = vg.dropna(subset=['Year_of_Release'])
 year_chart = sns.displot(vg_year['Year_of_Release'], bins=30)
 year_chart.set(xlabel='Year of Release', ylabel='Number of Games')
 plt.show()
+plt.clf()
 plt.close()
 
 # Genre data
 vg['Total_Sales'] = vg['NA_Sales'] + vg['EU_Sales'] + vg['JP_Sales'] + vg['Other_Sales']
+print(vg.head())
 vg_genre = vg.groupby('Genre')['Total_Sales'].sum()
 vg_genre.sort_values(ascending=True, inplace=True)
 vg_genre.plot.bar()
@@ -67,6 +69,8 @@ plt.title('Total Sales by Genre')
 plt.xlabel('Game Genre')
 plt.ylabel('Total Sales')
 plt.show()
+plt.clf()
+plt.close()
 
 # Loop function to determine parts of sales
 NA_Sales_Perc = []
@@ -162,6 +166,8 @@ tab2 = Panel(child=p2, title='Europe')
 tab3 = Panel(child=p3, title='Japan')
 tab4 = Panel(child=p4, title='Other')
 layout = Tabs(tabs=[tab1, tab2, tab3, tab4])
+hover = HoverTool(tooltips=[('Platform', '@Platform')])
+p1.add_tools(hover)
 show(layout)
 
 # add legend - color data based on platform
