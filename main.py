@@ -9,7 +9,6 @@ from bokeh.models.widgets import Tabs
 from bokeh.models.widgets import Panel
 from bokeh.models import HoverTool
 import folium
-from IPython.display import display
 
 # Import csv file
 vg = pd.read_csv('Video_Games.csv')
@@ -45,12 +44,16 @@ print(vg.head())
 print(vg.describe())
 
 # Create countplot to look at number of games per platform
+plt.figure(figsize=(15, 5))
 Platform_chart = sns.countplot(vg["Platform"])
 Platform_chart.set_ylabel('Number of Games')
 Platform_chart.set_title('Number of Games by Platform')
+Platform_chart.set_xlabel('Platform')
 plt.xticks(rotation=90)
 for p in Platform_chart.patches:
     Platform_chart.annotate('{:}'.format(p.get_height()), (p.get_x(), p.get_height()+2), color='grey')
+plt.tight_layout()
+plt.savefig('Platform_chart.png')
 plt.show()
 plt.clf()
 plt.close()
@@ -59,6 +62,7 @@ plt.close()
 vg_year = vg.dropna(subset=['Year_of_Release'])
 year_chart = sns.displot(vg_year['Year_of_Release'], bins=30)
 year_chart.set(xlabel='Year of Release', ylabel='Number of Games')
+plt.savefig('year_data.png')
 plt.show()
 plt.clf()
 plt.close()
@@ -72,6 +76,8 @@ vg_genre.plot.bar()
 plt.title('Total Sales by Genre')
 plt.xlabel('Game Genre')
 plt.ylabel('Total Sales')
+plt.tight_layout()
+plt.savefig('genre_data.png')
 plt.show()
 plt.clf()
 plt.close()
@@ -140,7 +146,9 @@ vg_data['EU_Sales_Perc'] = vg_data['EU_Sales_Perc'].replace(List1, List2)
 vg_data['JP_Sales_Perc'] = vg_data['JP_Sales_Perc'].replace(List1, List2)
 vg_data['Other_Sales_Perc'] = vg_data['Other_Sales_Perc'].replace(List1, List2)
 print(vg_data)
-sns.heatmap(vg_data)
+plt.figure(figsize=(9, 9))
+plt.tight_layout()
+sns.heatmap(vg_data, annot=True)
 plt.show()
 
 # Bokeh plots - using tab function & include hover tool
@@ -175,15 +183,17 @@ p1.add_tools(hover)
 p2.add_tools(hover)
 p3.add_tools(hover)
 p3.add_tools(hover)
+output_file('sales.html')
 show(layout)
 
 #Geospatial chart
-games_company = folium.Map([36, 139], zoom_start=15)
+games_company = folium.Map()
 locations = pd.read_csv('locations.csv')
 print(locations)
 locations.dropna(inplace=True)
 
-for i in range(0, len(locations)):
-    folium.Marker(location=[locations.iloc[i]['lat'], locations.iloc[i]['long']], popup=locations.iloc[i]['Company']).add_to(games_company)
+for index, locations in locations.iterrows():
+    location = [locations['lat'], locations['long']]
+    folium.Marker(location, popup = f'Company').add_to(games_company)
 
-display(games_company)
+games_company.save('location.html')
