@@ -147,8 +147,9 @@ vg_data['JP_Sales_Perc'] = vg_data['JP_Sales_Perc'].replace(List1, List2)
 vg_data['Other_Sales_Perc'] = vg_data['Other_Sales_Perc'].replace(List1, List2)
 print(vg_data)
 plt.figure(figsize=(9, 9))
-plt.tight_layout()
 sns.heatmap(vg_data, annot=True)
+plt.tight_layout()
+plt.savefig('heatmap.png')
 plt.show()
 
 # Bokeh plots - using tab function & include hover tool
